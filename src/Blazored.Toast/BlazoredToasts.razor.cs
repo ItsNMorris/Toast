@@ -146,10 +146,16 @@ public partial class BlazoredToasts
 
             var toastSettings = BuildCustomToastSettings(settings);
             var toastInstance = new ToastInstance(childContent, toastSettings);
-
-            ToastList.Add(toastInstance);
-
-            StateHasChanged();
+            
+            if (ToastList.Count < MaxToastCount)
+            {
+                ToastList.Add(toastInstance);
+                StateHasChanged();
+            }
+            else 
+            {
+                ToastWaitingQueue.Enqueue(toastInstance);
+            }    
         });
     }
 
